@@ -1,0 +1,26 @@
+{
+    "name": "bentools/arraytools",
+    "type": "library",
+    "description": "Some extra functions to work with arrays.",
+    "keywords": ["array", "indexed array", "associative array", "sort array", "flatten array", "multidimensionnal arrays"],
+    "homepage": "https://github.com/bpolaszek/bentools-arraytools",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Beno!t POLASZEK",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bpolaszek/bentools-arraytools"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {"BenTools\\": "src/BenTools"}
+    }
+}
