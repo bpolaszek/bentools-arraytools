@@ -69,9 +69,9 @@ class ArrayTools {
      * @return array
      */
     public static function SortMultiple(array $array, array $cols) {
-        $colarr = array();
+        $colarr = [];
         foreach ($cols as $col => $order) {
-            $colarr[$col] = array();
+            $colarr[$col] = [];
             foreach ($array as $k => $row) {
                 $colarr[$col]['_' . $k] = strtolower($row[$col]);
             }
@@ -84,7 +84,7 @@ class ArrayTools {
 
         eval($eval);
 
-        $ret = array();
+        $ret = [];
         foreach ($colarr as $col => $arr) {
             foreach ($arr as $k => $v) {
                 $k = substr($k, 1);
@@ -151,7 +151,7 @@ class ArrayTools {
      * @return array
      */
     public static function Flatten(array $array) {
-        $out    =   array();
+        $out    =   [];
         foreach ($array AS $key => $value)
             if (is_array($value))
                 $out        =   array_merge((array) $out, static::Flatten($value));
@@ -159,5 +159,31 @@ class ArrayTools {
                 $out[$key]  =   $value;
         return $out;
 
+    }
+
+    /**
+     * Inserts a value before a specific key.
+     * @param $array
+     * @param $key
+     * @param null $data
+     * @return array
+     */
+    public static function insertBeforeKey($array, $key, $data = null) {
+        if (($offset = array_search($key, array_keys($array))) === false)
+            $offset = count($array);
+        return array_merge(array_slice($array, 0, $offset), (array) $data, array_slice($array, $offset));
+    }
+
+    /**
+     * Inserts a value after a specific key.
+     * @param      $array
+     * @param      $key
+     * @param null $data
+     * @return array
+     */
+    public static function insertAfterKey($array, $key, $data = null) {
+        if (($offset = array_search($key, array_keys($array))) === false)
+            $offset = count($array);
+        return array_merge(array_slice($array, 0, $offset + 1), (array) $data, array_slice($array, $offset));
     }
 }
