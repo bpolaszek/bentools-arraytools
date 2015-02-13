@@ -168,7 +168,7 @@ class ArrayTools {
      * @param null $data
      * @return array
      */
-    public static function insertBeforeKey($array, $key, $data = null) {
+    public static function InsertBeforeKey($array, $key, $data = null) {
         if (($offset = array_search($key, array_keys($array))) === false)
             $offset = count($array);
         return array_merge(array_slice($array, 0, $offset), (array) $data, array_slice($array, $offset));
@@ -181,9 +181,23 @@ class ArrayTools {
      * @param null $data
      * @return array
      */
-    public static function insertAfterKey($array, $key, $data = null) {
+    public static function InsertAfterKey($array, $key, $data = null) {
         if (($offset = array_search($key, array_keys($array))) === false)
             $offset = count($array);
         return array_merge(array_slice($array, 0, $offset + 1), (array) $data, array_slice($array, $offset));
+    }
+
+    /**
+     * Performs something similar to an array_map, but on keys
+     * @param array $array
+     * @param       $callable
+     * @return array
+     */
+    public static function KeyMap(array $array, $callable) {
+        if (!is_callable($callable))
+            throw new \RuntimeException("The 2nd argument is not callable in " . __METHOD__);
+        $keys   =   array_keys($array);
+        $values =   array_values($array);
+        return array_combine(array_map($callable, $keys), $values);
     }
 }
