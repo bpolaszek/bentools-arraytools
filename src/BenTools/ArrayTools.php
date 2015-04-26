@@ -145,6 +145,26 @@ class ArrayTools {
     }
 
     /**
+     * It's like array_map, but on keys instead of values.
+     * @param $callback
+     * @param $array
+     * @return array
+     */
+    public static function KeyMap(callable $callback, array $array) {
+        return array_combine(array_map($callback, array_keys($array)), $array);
+    }
+
+    /**
+     * It's like array_walk, but on keys instead of values.
+     * @param array    $array
+     * @param callable $callback
+     */
+    public static function KeyWalk(array &$array, callable $callback) {
+        $array = static::KeyMap($callback, $array);
+        return true;
+    }
+
+    /**
      * Flattens an array.
      * Example : [0 => ['banana', 'apple'], 1 => ['watermelon']] becomes ['banana', 'apple', 'watermelon']
      * @param array $array
@@ -185,19 +205,5 @@ class ArrayTools {
         if (($offset = array_search($key, array_keys($array))) === false)
             $offset = count($array);
         return array_merge(array_slice($array, 0, $offset + 1), (array) $data, array_slice($array, $offset));
-    }
-
-    /**
-     * Performs something similar to an array_map, but on keys
-     * @param array $array
-     * @param       $callable
-     * @return array
-     */
-    public static function KeyMap(array $array, $callable) {
-        if (!is_callable($callable))
-            throw new \RuntimeException("The 2nd argument is not callable in " . __METHOD__);
-        $keys   =   array_keys($array);
-        $values =   array_values($array);
-        return array_combine(array_map($callable, $keys), $values);
     }
 }
