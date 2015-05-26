@@ -145,6 +145,16 @@ class ArrayTools {
     }
 
     /**
+     * Removes all elements where the key doesn't pass the callable $filter.
+     * @param array    $array
+     * @param callable $filter
+     * @return array
+     */
+    public static function uFilterKey(array $array, callable $filter) {
+        return static::FilterKey($array, array_filter(array_keys($array), $filter));
+    }
+
+    /**
      * It's like array_map, but on keys instead of values.
      * @param $callback
      * @param $array
