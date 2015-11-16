@@ -216,4 +216,46 @@ class ArrayTools {
             $offset = count($array);
         return array_merge(array_slice($array, 0, $offset + 1), (array) $data, array_slice($array, $offset));
     }
+
+    /**
+     * Sorts a multidimensionnal array by keys, then values
+     * @param $array
+     * @param int $sort_flags
+     */
+    public static function SortRecursive(&$array, $sort_flags = SORT_REGULAR) {
+        foreach ($array AS &$element)
+            if (is_array($element))
+                static::SortRecursive($element, $sort_flags);
+        static::IsAnAssociativeArray($array) ? ksort($array, $sort_flags) : sort($array, $sort_flags);
+    }
+
+    /**
+     * Returns a fingerprint of an array
+     * @param $array
+     * @param bool|true $sortRecursive
+     * @param null $serializeFn - the function used to serialize the array (defaults to json_encode)
+     * @param callable|null $hashFn - the function used to hash the serialized array (defaults to md5)
+     * @return string
+     */
+    public static function FingerPrint($array, $sortRecursive = true, callable $serializeFn = null, callable $hashFn = null) {
+
+        if (is_null($serializeFn)) {
+            $serializeFn = function(array $array) {
+                return json_encode($array);
+            };
+        }
+
+        if (is_null($hashFn)) {
+            $hashFn = function ($string) {
+                return md5($string);
+            };
+        }
+
+        if ($sortRecursive) {
+            static::SortRecursive($array);
+        }
+
+        return $hashFn($serializeFn($array));
+    }
+
 }
