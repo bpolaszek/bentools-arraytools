@@ -258,4 +258,25 @@ class ArrayTools {
         return $hashFn($serializeFn($array));
     }
 
+    /**
+     * Returns wether or not an item is in a given range
+     * @param $item
+     * @param array $range
+     * @param bool|true $includeEndOfRange
+     * @return bool
+     */
+    public static function InRange($item, array $range, $includeEndOfRange = true) {
+
+        $range = array_values($range);
+
+        if (count($range) !== 2)
+            throw new \RuntimeException("Range array should contain exactly 2 items");
+
+        if ($includeEndOfRange)
+            return $item >= $range[0] && $item <= $range[1];
+
+        else
+            return $item >= $range[0] && $item < $range[1];
+    }
+
 }
