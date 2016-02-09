@@ -239,6 +239,9 @@ class ArrayTools {
      */
     public static function FingerPrint($array, $sortRecursive = true, callable $serializeFn = null, callable $hashFn = null) {
 
+        if (empty($array))
+            return null;
+
         if (is_null($serializeFn)) {
             $serializeFn = function(array $array) {
                 return json_encode($array);
